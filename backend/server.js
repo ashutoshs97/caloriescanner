@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -33,6 +34,17 @@ app.use('/api/logs', logRoutes);
 app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'Server is running', timestamp: new Date() });
 });
+
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build folder
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  // For any route that isn't /api/*, send back the React index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  });
+}
 
 // Global error handler
 app.use((err, req, res, next) => {

@@ -1,5 +1,6 @@
 // Base API service with configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// In production the frontend is served from the same server, so we use a relative path
+const API_BASE_URL = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/api');
 
 const apiService = {
   // Set authorization header for requests that require auth
