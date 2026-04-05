@@ -104,9 +104,9 @@ const LoginPage = () => {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-brand-light hover:text-white transition-colors">
+                <button type="button" className="font-medium text-brand-light hover:text-white transition-colors bg-transparent border-none cursor-pointer p-0">
                   Forgot your password?
-                </a>
+                </button>
               </div>
             </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerStart, registerSuccess, registerFailure } from '../store/authSlice';
+import { registerStart, registerSuccess } from '../store/authSlice';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();

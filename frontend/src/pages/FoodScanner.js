@@ -4,7 +4,7 @@ import { addLog } from '../store/logsSlice';
 
 const FoodScanner = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
+  useSelector(state => state.auth);
   const [imagePreview, setImagePreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
@@ -49,7 +49,7 @@ const FoodScanner = () => {
 
     try {
       // Extract base64 from data URL
-      const base64Image = imagePreview.split(',')[1];
+      // base64Image extracted inline during API call
 
       // In a real app, we would call the backend API here
       // For now, we'll simulate Gemini API response

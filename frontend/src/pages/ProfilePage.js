@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfileStart, fetchProfileSuccess, fetchProfileFailure, updateProfileStart, updateProfileSuccess, updateProfileFailure } from '../store/userSlice';
+import { updateProfileStart, updateProfileSuccess } from '../store/userSlice';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { profile, loading, error: reduxError } = useSelector(state => state.user);
-  const { user, isAuthenticated } = useSelector(state => state.auth);
+  const { loading, error: reduxError } = useSelector(state => state.user);
+  const { user } = useSelector(state => state.auth);
   const [formData, setFormData] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState(null);
