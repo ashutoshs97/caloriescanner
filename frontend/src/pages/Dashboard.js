@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodayStart, fetchTodaySuccess, fetchTodayFailure, fetchHistoryStart, fetchHistorySuccess, fetchHistoryFailure } from '../store/logsSlice';
+import { fetchTodayStart, fetchTodaySuccess, fetchHistoryStart, fetchHistorySuccess } from '../store/logsSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { todayLog, history, loading, error } = useSelector(state => state.logs);
+  const { todayLog, history, loading } = useSelector(state => state.logs);
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
