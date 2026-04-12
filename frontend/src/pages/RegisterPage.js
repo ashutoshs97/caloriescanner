@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { registerStart, registerSuccess } from '../store/authSlice';
+import authService from '../services/authService';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -21,18 +24,19 @@ const RegisterPage = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, we would call the backend API here
+    setError(null);
     dispatch(registerStart());
-    // Simulate API delay
-    setTimeout(() => {
-      // Simulate successful registration
-      const mockUser = { id: 1, username: formData.username, email: formData.email };
-      const mockToken = 'mock-jwt-token';
-      dispatch(registerSuccess({ token: mockToken, user: mockUser }));
-    }, 1000);
+    try {
+      const result = await authService.register(formData);
+      dispatch(registerSuccess(result));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+    }
   };
 
   return (
@@ -56,6 +60,15 @@ const RegisterPage = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="glass-panel py-8 px-4 sm:px-10 rounded-2xl">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Error message */}
+            {error && (
+              <div className="p-4 bg-red-900/30 border border-red-500/50 rounded-lg text-red-400 text-sm flex items-center">
+                <svg className="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                {error}
+              </div>
+            )}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-slate-300">
                 Username
